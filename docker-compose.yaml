@@ -1,7 +1,5 @@
 version: "3.9"
 
-# 'temp'の箇所をプロジェクト名に置き換える
-
 services:
   nginx:
     container_name: ${PROJECT_NAME}_nginx
@@ -70,13 +68,13 @@ services:
     command: server /export --address :9999 --console-address :9001
 
   # DB作成後、ER図作成したい時以外は一旦コメントアウトしておく
-  schemaspy:
-    container_name: ${PROJECT_NAME}_schemaspy
-    build: 
-      context: .docker/schemaspy
-    volumes:
-      - .docker/schemaspy/output:/output
-    depends_on:
-      - db
-    environment:
-      SCHEMASPY_OUTPUT: /output
+  # schemaspy:
+  #   container_name: ${PROJECT_NAME}_schemaspy
+  #   build: 
+  #     context: .docker/schemaspy
+  #   volumes:
+  #     - .docker/schemaspy/output:/output
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     SCHEMASPY_OUTPUT: /output
