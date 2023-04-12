@@ -102,12 +102,13 @@ class AdminAuthController extends Controller
     {
         $logger = new ApplicationLogger(__METHOD__);
         try {
+            /** @var \App\Models\MyUserModel $user **/
             $user = Auth::guard('sanctum')->user();
             $result = [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'role' => $user->role,
+                'role' => $user->convertRoleString(),
             ];
         } catch (\Exception $e) {
             $logger->exception($e);

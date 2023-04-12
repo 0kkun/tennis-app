@@ -47,4 +47,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * role値をテキストに変換する
+     *
+     * @return string
+     */
+    public function convertRoleString(): string
+    {
+        return match ($this->role) {
+            self::ADMIN => 'admin',
+            self::GENERAL => 'general',
+        };
+    }
 }
