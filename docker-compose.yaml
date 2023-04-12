@@ -67,6 +67,13 @@ services:
       MINIO_DEFAULT_BUCKETS: uploads
     command: server /export --address :9999 --console-address :9001
 
+  mailhog:
+    container_name: ${PROJECT_NAME}_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
   # DB作成後、ER図作成したい時以外は一旦コメントアウトしておく
   # schemaspy:
   #   container_name: ${PROJECT_NAME}_schemaspy

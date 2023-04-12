@@ -113,6 +113,9 @@ restart:
 	@make down
 	@make up
 
+.PHONY: open-mailhog
+open-mailhog:
+	open http://localhost:8025
 
 # *****************************
 # *        Schemaspy          *
