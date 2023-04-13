@@ -30,6 +30,7 @@ services:
       - db
       - redis
       - minio
+      - mailhog
 
   db:
     container_name: ${PROJECT_NAME}_db
