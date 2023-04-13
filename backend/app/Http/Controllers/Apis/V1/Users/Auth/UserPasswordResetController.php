@@ -11,6 +11,7 @@ use App\Http\Requests\Users\Auth\SendPasswordResetMailRequest;
 use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Contracts\Auth\PasswordBroker;
 
 class UserPasswordResetController extends Controller
 {
@@ -77,9 +78,9 @@ class UserPasswordResetController extends Controller
     /**
      * パスワードリセットブローカーを取得する
      *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     * @return PasswordBroker
      */
-    public function broker()
+    public function broker(): PasswordBroker
     {
         return Password::broker();
     }
