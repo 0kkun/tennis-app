@@ -24,9 +24,6 @@ class AdminAuthController extends Controller
     {
         $logger = new ApplicationLogger(__METHOD__);
 
-        if (User::where('email', $request->email)->exists()) {
-            return response()->json(['error' => "User already register"], 409);
-        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -50,15 +47,10 @@ class AdminAuthController extends Controller
     public function login(LoginRequest $request): SuccessResource
     {
         $logger = new ApplicationLogger(__METHOD__);
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $credentials = $request->only(['email', 'password']);
         try {
             if (!Auth::attempt($credentials)) {
-                throw ValidationException::withMessages([
-                    'email' => 'The provided credentials are incorrect.',
-                ]);
+                throw ValidationException::withMessages([trans('auth.password')]);
             }
             $user = User::where('email', $request->email)->first();
             $user->tokens()->where('name', $request->email)->delete();
