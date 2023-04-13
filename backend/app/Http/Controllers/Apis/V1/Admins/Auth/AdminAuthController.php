@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Apis\V1\Admins\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admins\Auth\LoginRequest;
+use App\Http\Requests\Admins\Auth\RegisterRequest;
 use App\Http\Resources\Common\SuccessResource;
 use App\Models\User;
 use App\Modules\ApplicationLogger;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -16,10 +17,10 @@ class AdminAuthController extends Controller
     /**
      * ユーザー新規登録
      *
-     * @param Request $request
+     * @param RegisterRequest $request
      * @return SuccessResource
      */
-    public function register(Request $request): SuccessResource
+    public function register(RegisterRequest $request): SuccessResource
     {
         $logger = new ApplicationLogger(__METHOD__);
 
@@ -42,11 +43,11 @@ class AdminAuthController extends Controller
      * トークン認証ログイン
      * 1emailにつき1つのトークンを発行する仕様
      *
-     * @param Request $request
+     * @param LoginRequest $request
      * @return SuccessResource
      * @throws Exception
      */
-    public function login(Request $request): SuccessResource
+    public function login(LoginRequest $request): SuccessResource
     {
         $logger = new ApplicationLogger(__METHOD__);
         $credentials = $request->validate([
@@ -73,11 +74,10 @@ class AdminAuthController extends Controller
     /**
      * ログアウト
      *
-     * @param Request $request
      * @return SuccessResource
      * @throws Exception
      */
-    public function logout(Request $request): SuccessResource
+    public function logout(): SuccessResource
     {
         $logger = new ApplicationLogger(__METHOD__);
         try {
