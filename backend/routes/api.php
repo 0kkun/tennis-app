@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Apis\V1\Admins\Auth\AdminAuthController;
+use App\Http\Controllers\Apis\V1\Admins\Csv\CsvController;
 use App\Http\Controllers\Apis\V1\Users\Auth\UserAuthController;
 use App\Http\Controllers\Apis\V1\Users\Auth\UserPasswordResetController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,9 @@ Route::prefix('v1/')->group(function() {
 
         Route::middleware(['auth:sanctum', 'can:general'])->group(function() {
             Route::get('/me', [UserAuthController::class, 'me']);
+            Route::as('users.')->group(function () {
+                Route::patch('reset/{id}', [UserPasswordResetController::class, 'reset'])->name('password.reset');
+            });
         });
     });
     Route::prefix('/admins')->group(function() {
@@ -24,10 +28,7 @@ Route::prefix('v1/')->group(function() {
         Route::post('/logout', [AdminAuthController::class, 'logout']);
         Route::middleware(['auth:sanctum', 'can:admin'])->group(function() {
             Route::get('/me', [AdminAuthController::class, 'me']);
-
-            Route::as('users.')->group(function () {
-                Route::patch('reset/{id}', [UserPasswordResetController::class, 'reset'])->name('password.reset');
-            });
+            Route::apiResource('/csv', CsvController::class)->only(['index', 'store']);
         });
     });
 });
