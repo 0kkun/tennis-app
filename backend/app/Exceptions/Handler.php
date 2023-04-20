@@ -6,6 +6,7 @@ use App\Http\Resources\Common\ErrorResource;
 use App\Http\Resources\Common\InvalidResource;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -60,7 +61,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        if ( $request->is('api/*') ) {
+        if ($request->wantsJson()) {
             if ($e instanceof AuthorizationException) {
                 $messages = config('api_response.messages');
                 return new ErrorResource([
